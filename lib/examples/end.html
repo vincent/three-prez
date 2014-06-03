@@ -1,0 +1,102 @@
+<html><body style="overflow:hidden"></body></html>
+
+<script src="../js/three.js"></script>
+
+<script>
+
+  var renderer = new THREE.WebGLRenderer({antialias: true});
+  renderer.setSize(document.body.clientWidth, document.body.clientHeight);
+  document.body.appendChild(renderer.domElement);
+  renderer.setClearColorHex(0x000, 0.1);
+  renderer.clear();
+
+  var fov = 45; // camera field-of-view in degrees
+  var width = renderer.domElement.width;
+  var height = renderer.domElement.height;
+  var aspect = width / height; // view aspect ratio
+  var near = 1; // near clip plane
+  var far = 10000; // far clip plane
+  var camera = new THREE.PerspectiveCamera( fov, aspect, near, far );
+  camera.position.z = 300;
+
+  var scene = new THREE.Scene();
+
+  var origin = new THREE.Vector3(0, 0, 0);
+
+  // create the particle variables
+  var particleCount = 180,
+      particles = new THREE.Geometry(),
+      pMaterial = new THREE.ParticleBasicMaterial({
+        color: 0xFFFFFF,
+        size: 20,
+        map: THREE.ImageUtils.loadTexture('../img/particle.jpg'),
+        blending: THREE.AdditiveBlending,
+        transparent: true
+      });
+  
+  // now create the individual particles
+  for(var p = 0; p < particleCount; p++) {
+  
+    // create a particle with random
+    // position values, -250 -> 250
+    var pX = Math.random() * 500 - 250,
+        pY = Math.random() * 500 - 250,
+        pZ = Math.random() * 500 - 250,
+        particle = new THREE.Vector3(pX, pY, pZ);
+
+    // create a velocity vector
+    particle.velocity = new THREE.Vector3(
+       0,    // x
+      -0.001,    // y
+       0);   // z
+
+    // add it to the geometry
+    particles.vertices.push(particle);
+  }
+  
+  // create the particle system
+  var particleSystem = new THREE.ParticleSystem(particles, pMaterial);
+  
+  particleSystem.sortParticles = true;
+  
+  // add it to the scene
+  scene.add(particleSystem);
+  
+  // animation loop
+  function update(t) {
+    
+    var pCount = particleCount;
+    while (pCount--) {
+      // get the particle
+      var particle = particles.vertices[pCount];
+      
+      // check if we need to reset
+      if (particle.y < -200) {
+        particle.y = 200;
+        particle.velocity.y = 0;
+      }
+      
+      // update the velocity
+      particle.velocity.y -= Math.random() * .001;
+      
+      // and the position
+      particle.add(particle.velocity);
+    }
+    
+    // flag to the particle system that we've
+    // changed its vertices. This is the
+    // dirty little secret.
+    particleSystem.geometry.__dirtyVertices = true;
+
+    camera.position.set(
+      Math.sin(t/1000)*300, 150, Math.cos(t/1000)*300);
+    camera.lookAt(origin);
+    
+    renderer.render(scene, camera);
+    
+    // set up the next call
+    requestAnimationFrame(update);
+  }
+  update(new Date().getTime());
+
+  </script>

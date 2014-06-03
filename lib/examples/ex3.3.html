@@ -1,0 +1,99 @@
+<html><body style="overflow:hidden"></body></html>
+
+<script src="../js/three.js"></script>
+<script src="../js/stats.min.js"></script>
+
+<script>
+
+  var renderer = new THREE.WebGLRenderer({antialias: true});
+  renderer.setSize(document.body.clientWidth, document.body.clientHeight);
+  document.body.appendChild(renderer.domElement);
+  renderer.setClearColorHex(0xEEEEEE, 1.0);
+  renderer.clear();
+
+  var fov = 45; // camera field-of-view in degrees
+  var width = renderer.domElement.width;
+  var height = renderer.domElement.height;
+  var aspect = width / height; // view aspect ratio
+  var near = 1; // near clip plane
+  var far = 10000; // far clip plane
+  var camera = new THREE.PerspectiveCamera( fov, aspect, near, far );
+  camera.position.z = 300;
+
+  var stats = null;
+  var scene = new THREE.Scene();
+  var cube = new THREE.Mesh(
+    new THREE.CubeGeometry(50,50,50),
+    new THREE.MeshNormalMaterial()
+  );
+  cube.geometry.computeFaceNormals();
+  scene.add(cube);
+
+  var light = new THREE.SpotLight();
+  light.position.set( 170, 330, -160 );
+  scene.add(light);
+
+
+  /* * /
+  stats = new Stats();
+  stats.setMode(1); // 0: fps, 1: ms
+
+  // Align top-left
+  stats.domElement.style.position = 'absolute';
+  stats.domElement.style.left = '0px';
+  stats.domElement.style.top = '0px';
+
+  document.body.appendChild( stats.domElement );
+  stats.setMode(0);
+  stats.begin();
+  /* */
+
+
+  // var geometry = new THREE.CubeGeometry(20, 20, 20);
+  // var material = new THREE.MeshLambertMaterial();
+
+
+
+  for (var i = 0; i < 10; i++) {
+
+      for (var j = 0; j < 10; j++) {
+
+          var litCube = new THREE.Mesh(
+            new THREE.CubeGeometry(20, 20, 20), // geometry,
+            new THREE.MeshLambertMaterial()     // material
+          );
+
+          litCube.position.x = 50 * j + i * 10;
+          litCube.position.y = 20 + j * i * 10;
+
+          scene.add(litCube);
+
+      }
+  }
+
+
+
+
+
+  renderer.render(scene, camera);
+
+  var paused = false;
+  var last = new Date().getTime();
+
+  function animate(t) {
+    if (stats) stats.update();
+    if (!paused) {
+      last = t;
+      camera.position.set(
+        Math.sin(t/1000)*800, 600, Math.cos(t/1000)*800);
+      renderer.clear();
+      var point = scene.position.clone();
+      point.y = 200;
+      camera.lookAt(point);
+      renderer.render(scene, camera);
+    }
+    window.requestAnimationFrame(animate, renderer.domElement);
+  };
+  animate(new Date().getTime());
+
+</script>
