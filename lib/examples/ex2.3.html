@@ -1,0 +1,49 @@
+<html><body style="overflow:hidden"></body></html>
+
+<script src="../js/three.js"></script>
+<script src="../js/OBJLoader.js"></script>
+
+<script>
+
+  var renderer = new THREE.WebGLRenderer({antialias: true});
+  renderer.setSize(document.body.clientWidth, document.body.clientHeight);
+  document.body.appendChild(renderer.domElement);
+  renderer.setClearColorHex(0xEEEEEE, 1.0);
+  renderer.clear();
+
+  var width = renderer.domElement.width;
+  var height = renderer.domElement.height;
+  var camera = new THREE.PerspectiveCamera( 45, width / height, 1, 10000);
+  camera.position.z = 300;
+
+  var scene = new THREE.Scene();
+
+  var light = new THREE.PointLight();
+  light.position.set( 0, 100, -200 );
+  scene.add(light);
+
+
+  var loader = new THREE.OBJLoader();
+  
+  loader.load('../models/aperoweb.obj', function (object) {
+    
+    debugger;
+    
+    /* */
+    object.children[0].material = new THREE.MeshNormalMaterial({
+      color: '#ff0000'
+    });
+    /* */
+    
+    /* */
+    object.scale.set(20, 20, 20)
+    /* */
+  
+    scene.add(object);
+  
+    renderer.render(scene, camera);
+  
+  });
+
+
+</script>

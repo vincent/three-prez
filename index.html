@@ -4,10 +4,10 @@
   <head>
     <meta charset="utf-8">
 
-    <title>reveal.js - The HTML Presentation Framework</title>
+    <title>Three.js - Un moteur 3D Javascript</title>
 
-    <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
-    <meta name="author" content="Hakim El Hattab">
+    <meta name="description" content="Présentation de Three.js, un moteur 3D Javascript">
+    <meta name="author" content="Vincent Lark">
 
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -56,6 +56,19 @@
 
         <section>
           <section>
+            <aside class="notes">
+              <ul>
+                <li>Three.js est une librairie open source facilitant l'utilisation de WebGL</li>
+                <li>Créée en 2010 par Ricardo Cabello connu comme MrDoob</li>
+                <li>Je vous ai mis quelques stats sur le projet</li>
+                <li>qui donnent, je trouve, une bonne idée de l'activité, de la popularité, et de l'ouverture de ce projet<br></li>
+
+                <li>Point sur WebGL</li>
+                <li>Qui connait ?</li>
+                <li>Petit rappel au cas où</li>
+                <li>BAS</li>
+              </ul>
+            </aside>
             <h2>Three.js</h2>
             <br>
             <ul style="width:90%; margin:0">
@@ -66,7 +79,7 @@
                 <br><br>
               </li>
               <li>
-                créé en <a>2010</a> par <a href="http://twitter.com/@mrdoob">Ricardo Cabello</a>
+                créée en <a>2010</a> par <a href="http://twitter.com/@mrdoob">Ricardo Cabello</a>
                 <img src="lib/img/mrdoob.png" style="border:none; float:right"/>
                 <br><br>
               </li>
@@ -76,6 +89,11 @@
               </li>
             </ul>
           </section>
+          <aside class="notes">
+            <ul>
+              <li>OpenGL ES (Open Graphics Library for Embedded System)</li>
+            </ul>
+          </aside>
           <section>
             <h2>WebGL ?</h2>
             <br>
@@ -85,27 +103,52 @@
             <br><br>
             en s'aidant de <a href="">JavaScript</a>, [..] de l'accélération matérielle pour les 
             <br><br>
-            calculs et le rendu 3D à l'aide des pilotes OpenGL ES [..] 
-            <br><br>
-            et du <a href="">processeur graphique</a> &raquo;</p>
+            calculs et le rendu 3D [..] et du <a href="">processeur graphique</a> &raquo;</p>
           </section>
           <section>
             <img src="lib/img/iknowsomewords.jpg" style="border:none; width:80%"/>
           </section>
           <section>
-            <h2>OK, mais concrètement ?</h2>
+            <aside class="notes">
+              <ul>
+                <li>Petit rappels</li>
+                <li>Définitions communes à OpenGL et Three.js</li>
+              </ul>
+            </aside>
+            <h2>Vocabulaire</h2>
+            <p>Une scène</p>
+            <img src="lib/img/scene.png" style="border:none"/>
+          </section>
+          <section>
+            <aside class="notes">
+              <ul>
+                <li>Avec des méthodes similaires à OpenGL<br></li>
+                <li>on manipule des tableaux de points et de faces<br></li>
+                <li>et on utilise des matrices pour changer de réferentiel et déplacer les objets<br></li>
+              </ul>
+            </aside>
+            <h2>OK mais concrètement ?</h2>
             <br>
             <ul>
               <li>
                 Via des méthodes très similaires à <a href="#">OpenGL</a>
-                <code data-trim>gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);</code>
-                <br><br>
+                <code data-trim><pre>
+gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+                </pre></code>
               </li>
               <li>
-                On manipule des tableaux de points 3D, de faces <br>
-                et on place les 
-                objets en transformant des <a href="">matrices</a>
-                <br><br>
+                On manipule des tableaux de <a href="#">points 3D</a> et de <a href="#">faces</a>
+                <code data-trim><pre>
+var vertices = [
+//  X     Y     Z
+  -1.0, -1.0,  1.0,
+   1.0, -1.0,  1.0,
+   1.0,  1.0,  1.0,
+  -1.0,  1.0,  1.0,
+                </pre></code>
+              </li>
+              <li>
+                On place des objets en transformant des <a href="">matrices</a>
                 <code data-trim><pre>
 mvPushMatrix();
 mvRotate(cubeRotation, [1, 0, 1]);
@@ -116,9 +159,21 @@ mvTranslate([cubeXOffset, cubeYOffset, cubeZOffset]);
             <br>
           </section>
           <section>
+            <aside class="notes">
+              <ul>
+                <li>Passage en revue du code, des commentaires</li>
+                <li>...</li>
+                <li>Je sais pas pour vous.. mais moi, ça ne me fait pas spécialement envie..</li>
+                <li>Alors, qu'est-ce que j'ai envie ?</li>
+              </ul>
+            </aside>
             <h2>Exemple, pour un cube</h2>
             <br>
             <pre><code data-trim contenteditable>
+
+// Initialize WebGL, returning the GL context
+gl = canvas.getContext("experimental-webgl");
+
 // Create a buffer for the cube's vertices.
 
 cubeVerticesBuffer = gl.createBuffer();
@@ -287,6 +342,12 @@ mvPopMatrix();
         </section>
 
         <section>
+          <aside class="notes">
+Voila un bon résumé de ce dont j'ai envie. 
+La possibilité d'utiliser OpenGL, de manipuler des objets 3D, des particules animées.
+<br><br>
+Mais plus facilement, et en gardant un code bien lisible.
+          </aside>
           <h2>What do we want ?</h2>
           <br>
           <h2><a href="">3D ! and particules !
@@ -300,66 +361,75 @@ mvPopMatrix();
         </section>
 
         <section>
+          <aside class="notes">
+            Vous l'avez compris, je pense que Three.js répond bien à ces besoins.
+            <br>
+            Certains ont un peu de mal à croire à la 3D dans le navigateur
+            Que ça reste non distribuable (pas de support, buggé)
+            Et bien en fait on s'apperçoit que ça commence à arriver pour le "grand public"
+            <br><br>
+            Voici quelques exemples que je trouve assez parlants
+          </aside>
           <h2>De la 3D dans le browser</h2>
           <p>ça marche vraiment ?</p>
           <br>
-          <ul>
-            <li>utilisé par, entre autres<br><br>
-              <ul>
-                <li><a href="#">Google</a>
-                  Chrome Experiments, visualisations,<br>clips intéractifs
-                  <br>
-                </li>
-                <li><a href="http://gravitymovie.warnerbros.com">Warner</a>
-                  Gravity, The Hobbit</a>
-                </li>
-                <li><a href="http://www.findyourwaytooz.com/">Disney</a>
-                  Magicien d'Oz</a>
-                </li>
-              </ul>
-              <br><br>
-            </li>
-            <li>
-              <a href="https://github.com/mrdoob/three.js/tree/master/examples">200+</a> examples spécifiques fournis
-              <br><br>
-              ~ tests unitaires, à utiliser comme base 
-            </li>              
+            <ul>
+              <li class="fragment fade-in" data-fragment-index="1">
+                Création / publication graphique<br>
+                <a href="https://clara.io/">Clara.io</a> et <a href="http://verold.com/">Verold</a> sont des éditeurs 3D en ligne
+                <br><br>
+              </li>
+              <li class="fragment fade-in" data-fragment-index="2">
+                <a href="#">Chrome Experiments</a><br>
+                Visualisations, clips intéractifs
+                <br><br>
+              </li>
+              <li class="fragment fade-in" data-fragment-index="3">
+                Marketting / publicité<br>
+                <a href="http://gravitymovie.warnerbros.com">Warner</a> Gravity, The Hobbit</a>
+                <br>
+                <a href="http://www.findyourwaytooz.com/">Disney</a> Magicien d'Oz</a>
+                <br>
+                <a href="http://www.nike.com/xp/b/genealogyofthefree/zoetrope.html">Nike</a>
+                <br>
+                <br>
+              </li>
+              <li class="fragment fade-in" data-fragment-index="4">
+                <a href="https://github.com/mrdoob/three.js/tree/master/examples">200+</a> examples spécifiques fournis
+                <br>
+                ~ tests unitaires, à utiliser comme base 
+              </li>
+            </ul>
           </ul>
         </section>
 
         <section>
-          <h2>Vocabulaire</h2>
-          <img src="lib/img/scene.png" style="border:none"/>
-        </section>
-
-        <section>
+          <h2>En scène <em>(3D)</em> !</h2>
           <ul>
-            <li>un Renderer (WebGL) utilise un <a>&lt;canvas&gt;</a>
-              <pre><code data-trim contenteditable>
-var renderer = new THREE.WebGLRenderer();
-document.body.appendChild(renderer.domElement);
-              </code></pre>
-            </li>
             <li>une scene, et une camera
               <pre><code data-trim contenteditable>
-var camera = new THREE.PerspectiveCamera(45, width/height, 1, 10000);
-camera.position.z = 300; // vers vous
-var scene = new THREE.Scene();
+var camera = new THREE.PerspectiveCamera(45, w/h, 1, 1000)
+camera.position.z = 300 // vers vous
+var scene = new THREE.Scene()
               </code></pre>
+              <br>
             </li>
             <li>un objet (Mesh) composé de sa Geometry et d'un Material
               <pre><code data-trim contenteditable>
 var cube = new THREE.Mesh(
-  new THREE.CubeGeometry(50,50,50),
+  new THREE.CubeGeometry(50, 50, 50),
   new THREE.MeshBasicMaterial({ color: 0x000 })
-);
-scene.add(cube);
+)
+scene.add(cube)
               </code></pre>
+              <br>
             </li>
             <li>le renderer expose la scene
               <pre><code data-trim contenteditable>
-renderer.render(scene, camera);
+var renderer = new THREE.WebGLRenderer()
+renderer.render(scene, camera)
               </code></pre>
+              <br>
             </li>
           </ul>
         </section>
@@ -449,7 +519,7 @@ cube.rotation.y = 45 * Math.PI / 180;
               <a href="">requestAnimationFrame(animate)</a>
             </li>
             <li>
-              <pre><code data-trim contenteditable>
+              <pre class="fragment fade-in" data-fragment-index="1"><code data-trim contenteditable>
 function animate() {
 
   camera.position.set(
@@ -464,8 +534,10 @@ function animate() {
               </code></pre>
             </li>
           </ul>
-          <small>ex 2</small>
-          <iframe src="lib/examples/ex2.html" style="width: 40%; float:right; height: 500px"></iframe>
+          <div class="fragment fade-in" data-fragment-index="2">
+            <small>ex 2</small>
+            <iframe src="lib/examples/ex2.html" style="width: 40%; float:right; height: 500px"></iframe>
+          </div>
         </section>
 
         <section>
@@ -493,8 +565,60 @@ function animate() {
               </code></pre>
             </li>
           </ul>
-          <small>ex 2.2</small>
-          <iframe src="lib/examples/ex2.2.html" style="width: 40%; float:right; height: 500px"></iframe>
+          <div class="fragment fade-in" data-fragment-index="2">
+            <small>ex 2.2</small>
+            <iframe src="lib/examples/ex2.2.html" style="width: 40%; float:right; height: 500px"></iframe>
+          </div>
+        </section>
+
+        <section>
+          <h2>Prêts ? Chargez !</h2>
+          <ul>
+            <li>
+              Des images
+              <br>
+              <pre><code data-trim contenteditable>
+var texture = new THREE.Texture();
+var loader = new THREE.ImageLoader(manager);
+loader.load('textures/UV_Grid_Sm.jpg', function (image) {
+  texture.image = image;
+  texture.needsUpdate = true;
+});
+              </code></pre>
+            </li>
+            <li>
+              Des fichiers 3D  .obj ,  .stl ,  .fbx , ...
+              <br>
+              <pre><code data-trim contenteditable>
+var loader = new THREE.OBJLoader(manager);
+loader.load('obj/male02/male02.obj', function (object) {
+  object.traverse(function(child) {
+    if (child instanceof THREE.Mesh) {
+      child.material.map = texture;
+    }
+  });
+  scene.add(object);
+});
+              </code></pre>
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Créons un objet 3D</h2>
+          <br>
+          <ul style="width:55%; float:left">
+            <li>
+              Création d'un objet dans <a href="http://www.blender.org">Blender</a>
+            </li>
+            <li>
+              Atention aux <a href="">normals</a>, aux <a href="">UV maps</a>, ...
+            </li>
+          </ul>
+          <div class="fragment fade-in" data-fragment-index="1">
+            <small>ex 2.3</small>
+            <iframe src="lib/examples/ex2.3.html" style="width: 40%; float:right; height: 500px"></iframe>
+          </div>
         </section>
 
         <section>
@@ -510,9 +634,9 @@ function animate() {
               <br>
             </li>
             <li>
-              Instancier le moins possible<br>
+              Gérer la mémoire disponible<br>
               <ul>
-                <li>pendant l'affichage</li>
+                <li>objectif: pas de `new`</li>
                 <li>utilisez des pools d'objets</li>
               </ul>
               <br>
@@ -532,7 +656,7 @@ function animate() {
         </section>
 
         <section>
-          <h2>Playground</h2>
+          <h2>Bac à sable</h2>
           <div><small>ex 3.3</small></div>
           <iframe src="lib/examples/ex3.3.html" style="width: 90%; height: 500px"></iframe>
           <aside class="notes">

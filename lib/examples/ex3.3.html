@@ -34,6 +34,7 @@
   scene.add(light);
 
 
+
   /* * /
   stats = new Stats();
   stats.setMode(1); // 0: fps, 1: ms
@@ -49,10 +50,9 @@
   /* */
 
 
+
   // var geometry = new THREE.CubeGeometry(20, 20, 20);
   // var material = new THREE.MeshLambertMaterial();
-
-
 
   for (var i = 0; i < 10; i++) {
 
@@ -63,13 +63,14 @@
             new THREE.MeshLambertMaterial()     // material
           );
 
-          litCube.position.x = 50 * j + i * 10;
+          litCube.position.x = 20 * j + i * 10;
           litCube.position.y = 20 + j * i * 10;
 
           scene.add(litCube);
 
       }
   }
+
 
 
 
