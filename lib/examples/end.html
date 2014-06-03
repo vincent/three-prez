@@ -21,6 +21,8 @@
 
   var scene = new THREE.Scene();
 
+  var origin = new THREE.Vector3(0, 0, 0);
+
   // create the particle variables
   var particleCount = 180,
       particles = new THREE.Geometry(),
@@ -61,7 +63,7 @@
   scene.add(particleSystem);
   
   // animation loop
-  function update() {
+  function update(t) {
     
     var pCount = particleCount;
     while (pCount--) {
@@ -85,12 +87,16 @@
     // changed its vertices. This is the
     // dirty little secret.
     particleSystem.geometry.__dirtyVertices = true;
+
+    camera.position.set(
+      Math.sin(t/1000)*300, 150, Math.cos(t/1000)*300);
+    camera.lookAt(origin);
     
     renderer.render(scene, camera);
     
     // set up the next call
     requestAnimationFrame(update);
   }
-  requestAnimationFrame(update);
+  update(new Date().getTime());
 
   </script>

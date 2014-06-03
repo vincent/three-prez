@@ -28,7 +28,7 @@
   scene.add(cube);
 
   var light = new THREE.SpotLight();
-  light.position.set( 170, 330, -160 );
+  light.position.set( 0, 0, -500 );
   scene.add(light);
 
   var litCube = new THREE.Mesh(
@@ -45,8 +45,9 @@
   function animate(t) {
     if (!paused) {
       last = t;
-      camera.position.set(
-        Math.sin(t/1000)*300, 150, Math.cos(t/1000)*300);
+      litCube.position.set(
+        Math.sin(t/1000)*200, 50, Math.cos(t/1000)*200);
+      cube.rotation.y = Math.sin(t/1000);
       renderer.clear();
       camera.lookAt(scene.position);
       renderer.render(scene, camera);

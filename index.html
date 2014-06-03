@@ -50,38 +50,260 @@
           <h3>Un moteur 3D Javascript</h3>
           <br>
           <p>
-            <small><a href="#">Vincent Lark</a> / <a href="http://twitter.com/allyouneedisgnu">@allyouneedisgnu</a></small>
+            <small><a href="#">Vincent Lark</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="http://twitter.com/allyouneedisgnu">@allyouneedisgnu</a></small>
           </p>
         </section>
 
         <section>
-          <h2>What</h2>
-          <br>
-          <ul>
-            <li>
-              Open Source 3D engine
-              <br>
-              <a href="http://github.com/mrdoob/three.js">github.com/mrdoob/three.js</a>
-              <br><br>
-            </li>
-            <li>créé en <a>2010</a> par <a href="http://twitter.com/@mrdoob">Ricardo Cabello</a>
-              <br><br></li>
-            <li>
-              <a href="">7500</a> commits, <a href="">58</a> releases, <a href="">270</a> contributors
-              <br><br>
-            </li>
-            <li>plusieurs moteurs de rendu,<br> en particulier <a href="#">WebGL</a>
-              <br><br>
-            </li>
-          </ul>
-          <img src="lib/img/mrdoob.png" style="border: none; margin-left: 5%"/>
+          <section>
+            <h2>Three.js</h2>
+            <br>
+            <ul style="width:90%; margin:0">
+              <li>
+                librairie open source facilitant l'utilisation de WebGL
+                <br>
+                <a href="http://github.com/mrdoob/three.js">github.com/mrdoob/three.js</a>
+                <br><br>
+              </li>
+              <li>
+                créé en <a>2010</a> par <a href="http://twitter.com/@mrdoob">Ricardo Cabello</a>
+                <img src="lib/img/mrdoob.png" style="border:none; float:right"/>
+                <br><br>
+              </li>
+              <li>
+                <a href="">8000</a> commits, <a href="">59</a> releases, <a href="">300</a> contributors
+                <br><br>
+              </li>
+            </ul>
+          </section>
+          <section>
+            <h2>WebGL ?</h2>
+            <br>
+            <p>&laquo; WebGL est une <a href="">[API]</a>.
+            <br><br>
+            Elle permet d'utiliser <a href="">OpenGL</a> ES au sein d'une page web [..] HTML5
+            <br><br>
+            en s'aidant de <a href="">JavaScript</a>, [..] de l'accélération matérielle pour les 
+            <br><br>
+            calculs et le rendu 3D à l'aide des pilotes OpenGL ES [..] 
+            <br><br>
+            et du <a href="">processeur graphique</a> &raquo;</p>
+          </section>
+          <section>
+            <img src="lib/img/iknowsomewords.jpg" style="border:none; width:80%"/>
+          </section>
+          <section>
+            <h2>OK, mais concrètement ?</h2>
+            <br>
+            <ul>
+              <li>
+                Via des méthodes très similaires à <a href="#">OpenGL</a>
+                <code data-trim>gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);</code>
+                <br><br>
+              </li>
+              <li>
+                On manipule des tableaux de points 3D, de faces <br>
+                et on place les 
+                objets en transformant des <a href="">matrices</a>
+                <br><br>
+                <code data-trim><pre>
+mvPushMatrix();
+mvRotate(cubeRotation, [1, 0, 1]);
+mvTranslate([cubeXOffset, cubeYOffset, cubeZOffset]);
+                </pre></code>
+              </li>
+            </ul>
+            <br>
+          </section>
+          <section>
+            <h2>Exemple, pour un cube</h2>
+            <br>
+            <pre><code data-trim contenteditable>
+// Create a buffer for the cube's vertices.
+
+cubeVerticesBuffer = gl.createBuffer();
+
+// Select the cubeVerticesBuffer as the one to apply vertex
+// operations to from here out.
+
+gl.bindBuffer(gl.ARRAY_BUFFER, cubeVerticesBuffer);
+
+// Now create an array of vertices for the cube.
+
+var vertices = [
+  // Front face
+  -1.0, -1.0,  1.0,
+   1.0, -1.0,  1.0,
+   1.0,  1.0,  1.0,
+  -1.0,  1.0,  1.0,
+  
+  // Back face
+  -1.0, -1.0, -1.0,
+  -1.0,  1.0, -1.0,
+   1.0,  1.0, -1.0,
+   1.0, -1.0, -1.0,
+  
+  // Top face
+  -1.0,  1.0, -1.0,
+  -1.0,  1.0,  1.0,
+   1.0,  1.0,  1.0,
+   1.0,  1.0, -1.0,
+  
+  // Bottom face
+  -1.0, -1.0, -1.0,
+   1.0, -1.0, -1.0,
+   1.0, -1.0,  1.0,
+  -1.0, -1.0,  1.0,
+  
+  // Right face
+   1.0, -1.0, -1.0,
+   1.0,  1.0, -1.0,
+   1.0,  1.0,  1.0,
+   1.0, -1.0,  1.0,
+  
+  // Left face
+  -1.0, -1.0, -1.0,
+  -1.0, -1.0,  1.0,
+  -1.0,  1.0,  1.0,
+  -1.0,  1.0, -1.0
+];
+
+// Now pass the list of vertices into WebGL to build the shape. We
+// do this by creating a Float32Array from the JavaScript array,
+// then use it to fill the current vertex buffer.
+
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+
+// Now set up the colors for the faces. We'll use solid colors
+// for each face.
+
+var colors = [
+  [1.0,  1.0,  1.0,  1.0],    // Front face: white
+  [1.0,  0.0,  0.0,  1.0],    // Back face: red
+  [0.0,  1.0,  0.0,  1.0],    // Top face: green
+  [0.0,  0.0,  1.0,  1.0],    // Bottom face: blue
+  [1.0,  1.0,  0.0,  1.0],    // Right face: yellow
+  [1.0,  0.0,  1.0,  1.0]     // Left face: purple
+];
+
+// Convert the array of colors into a table for all the vertices.
+
+var generatedColors = [];
+
+for (j=0; j<6; j++) {
+  var c = colors[j];
+  
+  // Repeat each color four times for the four vertices of the face
+  
+  for (var i=0; i<4; i++) {
+    generatedColors = generatedColors.concat(c);
+  }
+}
+
+cubeVerticesColorBuffer = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, cubeVerticesColorBuffer);
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(generatedColors), gl.STATIC_DRAW);
+
+// Build the element array buffer; this specifies the indices
+// into the vertex array for each face vertices.
+
+cubeVerticesIndexBuffer = gl.createBuffer();
+gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeVerticesIndexBuffer);
+
+// This array defines each face as two triangles, using the
+// indices into the vertex array to specify each triangle
+// position.
+
+var cubeVertexIndices = [
+  0,  1,  2,      0,  2,  3,    // front
+  4,  5,  6,      4,  6,  7,    // back
+  8,  9,  10,     8,  10, 11,   // top
+  12, 13, 14,     12, 14, 15,   // bottom
+  16, 17, 18,     16, 18, 19,   // right
+  20, 21, 22,     20, 22, 23    // left
+]
+
+// Now send the element array to GL
+
+gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,
+    new Uint16Array(cubeVertexIndices), gl.STATIC_DRAW);
+}
+
+//
+// drawScene
+//
+// Draw the scene.
+//
+function drawScene() {
+// Clear the canvas before we start drawing on it.
+
+gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+// Establish the perspective with which we want to view the
+// scene. Our field of view is 45 degrees, with a width/height
+// ratio of 640:480, and we only want to see objects between 0.1 units
+// and 100 units away from the camera.
+
+perspectiveMatrix = makePerspective(45, 640.0/480.0, 0.1, 100.0);
+
+// Set the drawing position to the "identity" point, which is
+// the center of the scene.
+
+loadIdentity();
+
+// Now move the drawing position a bit to where we want to start
+// drawing the cube.
+
+mvTranslate([-0.0, 0.0, -6.0]);
+
+// Save the current matrix, then rotate before we draw.
+
+mvPushMatrix();
+mvRotate(cubeRotation, [1, 0, 1]);
+mvTranslate([cubeXOffset, cubeYOffset, cubeZOffset]);
+
+// Draw the cube by binding the array buffer to the cube vertices
+// array, setting attributes, and pushing it to GL.
+
+gl.bindBuffer(gl.ARRAY_BUFFER, cubeVerticesBuffer);
+gl.vertexAttribPointer(vertexPositionAttribute, 3, gl.FLOAT, false, 0, 0);
+
+// Set the colors attribute for the vertices.
+
+gl.bindBuffer(gl.ARRAY_BUFFER, cubeVerticesColorBuffer);
+gl.vertexAttribPointer(vertexColorAttribute, 4, gl.FLOAT, false, 0, 0);
+
+// Draw the cube.
+
+gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeVerticesIndexBuffer);
+setMatrixUniforms();
+gl.drawElements(gl.TRIANGLES, 36, gl.UNSIGNED_SHORT, 0);
+
+// Restore the original matrix
+
+mvPopMatrix();
+            </code></pre>
+          </section>
         </section>
 
         <section>
-          <h2>Ça marche vraiment ?</h2>
+          <h2>What do we want ?</h2>
+          <br>
+          <h2><a href="">3D ! and particules !
+          <br>
+          and awesomeness !</a></h2>
+          <br>
+          <h2>How do we want ?</h2>
+          <br>
+          <h2><a href="">Super easy ! and readable !</a></h2>
+          <br>
+        </section>
+
+        <section>
+          <h2>De la 3D dans le browser</h2>
+          <p>ça marche vraiment ?</p>
           <br>
           <ul>
-            <li><a href="https://github.com/mrdoob/three.js/tree/master/examples">200+</a> examples spécifiques fournis<br><br></li>
             <li>utilisé par, entre autres<br><br>
               <ul>
                 <li><a href="#">Google</a>
@@ -94,7 +316,14 @@
                 <li><a href="http://www.findyourwaytooz.com/">Disney</a>
                   Magicien d'Oz</a>
                 </li>
+              </ul>
+              <br><br>
             </li>
+            <li>
+              <a href="https://github.com/mrdoob/three.js/tree/master/examples">200+</a> examples spécifiques fournis
+              <br><br>
+              ~ tests unitaires, à utiliser comme base 
+            </li>              
           </ul>
         </section>
 
@@ -104,8 +333,6 @@
         </section>
 
         <section>
-          <h2>TL;DR</h2>
-          <br>
           <ul>
             <li>un Renderer (WebGL) utilise un <a>&lt;canvas&gt;</a>
               <pre><code data-trim contenteditable>
@@ -118,7 +345,14 @@ document.body.appendChild(renderer.domElement);
 var camera = new THREE.PerspectiveCamera(45, width/height, 1, 10000);
 camera.position.z = 300; // vers vous
 var scene = new THREE.Scene();
-var cube = new THREE.Mesh(new THREE.CubeGeometry(50,50,50));
+              </code></pre>
+            </li>
+            <li>un objet (Mesh) composé de sa Geometry et d'un Material
+              <pre><code data-trim contenteditable>
+var cube = new THREE.Mesh(
+  new THREE.CubeGeometry(50,50,50),
+  new THREE.MeshBasicMaterial({ color: 0x000 })
+);
 scene.add(cube);
               </code></pre>
             </li>
@@ -132,8 +366,39 @@ renderer.render(scene, camera);
 
         <section>
           <h2>HOÔoo</h2>
-          <iframe src="lib/examples/ex1.html" style="width: 600px; height: 500px"></iframe>
-          <p>wait ...</p>
+          <!--
+          <pre style="width: 60%; float:left"><code data-trim contenteditable style="font-size:18px; max-height:475px;">
+var renderer = new THREE.WebGLRenderer({antialias: true});
+renderer.setSize(document.body.clientWidth, document.body.clientHeight);
+document.body.appendChild(renderer.domElement);
+renderer.setClearColorHex(0xEEEEEE, 1.0);
+renderer.clear();
+
+var fov = 45; // camera field-of-view in degrees
+var width = renderer.domElement.width;
+var height = renderer.domElement.height;
+var aspect = width / height; // view aspect ratio
+var near = 1; // near clip plane
+var far = 10000; // far clip plane
+var camera = new THREE.PerspectiveCamera( fov, aspect, near, far );
+camera.position.z = 300;
+
+var scene = new THREE.Scene();
+var cube = new THREE.Mesh(
+  new THREE.CubeGeometry(50,50,50),
+  new THREE.MeshBasicMaterial({color: 0x000 })
+);
+scene.add(cube);
+
+var light = new THREE.SpotLight();
+light.position.set( 170, 330, -160 );
+scene.add(light);
+
+renderer.render(scene, camera);
+            </code></pre>
+            -->
+          <iframe src="lib/examples/ex1.html" style="width: 80%; height: 500px"></iframe>
+          <p>wait for it ...</p>
         </section>
 
         <section>
@@ -146,7 +411,7 @@ camera.position.y = 60;   // mais un peu plus haut
               <br>
             </li>
 
-            <li>utilisons le <a>MeshNormalMaterial</a>, qui utilise une couleur en fonction de l'angle avec lequel la lumière arrive sur l'objet
+            <li>utilisons le <a>MeshNormalMaterial</a>, qui affecte aux faces une couleur en fonction de l'angle avec lequel la lumière arrive dessus
               <pre><code data-trim contenteditable>
 var cube = new THREE.Mesh(
   new THREE.CubeGeometry(50,50,50),
@@ -172,12 +437,186 @@ cube.rotation.y = 45 * Math.PI / 180;
 
         <section>
           <h2>HOÔoo</h2>
-          <iframe src="lib/examples/ex1.1.html" style="width: 600px; height: 500px"></iframe>
+          <iframe src="lib/examples/ex1.1.html" style="width: 80%; height: 500px"></iframe>
+        </section>
+
+        <section>
+          <h2>C'est bien joli, mais bon..</h2>
+          <p>On veut que ça bouge !</p>
+          <br>
+          <ul style="width:55%; float:left">
+            <li>
+              <a href="">requestAnimationFrame(animate)</a>
+            </li>
+            <li>
+              <pre><code data-trim contenteditable>
+function animate() {
+
+  camera.position.set(
+    Math.sin(t / 1000) * 300,
+    150,
+    Math.cos(t / 1000) * 300
+  );
+
+  requestAnimationFrame(animate)
+
+}
+              </code></pre>
+            </li>
+          </ul>
+          <small>ex 2</small>
+          <iframe src="lib/examples/ex2.html" style="width: 40%; float:right; height: 500px"></iframe>
+        </section>
+
+        <section>
+          <h2>Pas la caméra, la scène !</h2>
+          <br>
+          <ul style="width:55%; float:left">
+            <li>
+              <a href="">requestAnimationFrame(animate)</a>
+            </li>
+            <li>
+              <pre><code data-trim contenteditable>
+function animate() {
+
+  cube1.position.set(
+    Math.sin(t / 1000) * 200,
+    150,
+    Math.cos(t / 1000) * 200
+  );
+
+  cube2.rotation.y = 
+              Math.sin(t/1000);
+
+  requestAnimationFrame(animate)
+}
+              </code></pre>
+            </li>
+          </ul>
+          <small>ex 2.2</small>
+          <iframe src="lib/examples/ex2.2.html" style="width: 40%; float:right; height: 500px"></iframe>
+        </section>
+
+        <section>
+          <h2>Attention, chérie, ça va lagguer...</h2>
+          <br>
+          <ul style="width:55%; float:left">
+            <li>
+              Mesurer, mesurer, toujours mesurer
+              <ul>
+                <li><a href="https://github.com/mrdoob/stats.js">Stats.js</a></li>
+                <li>outils de dévelopement</li>
+              </ul>
+              <br>
+            </li>
+            <li>
+              Instancier le moins possible<br>
+              <ul>
+                <li>pendant l'affichage</li>
+                <li>utilisez des pools d'objets</li>
+              </ul>
+              <br>
+            </li>
+            <li>
+              <!-- Buffers = Calls = temps -->
+              Fusionner les geométries
+              <ul>
+                <li>10 objets => 1 objet</li>
+                <li>10 appels au GPU => 1 seul</li>
+                <li><i>BufferGeometry</i></li>
+              </ul>
+            </li>
+          </ul>
+          <small>ex 3</small>
+          <iframe src="lib/examples/ex3.html" style="width: 40%; float:right; height: 500px"></iframe>
+        </section>
+
+        <section>
+          <div><small>ex 3.3</small></div>
+          <iframe src="lib/examples/ex3.3.html" style="width: 90%; height: 500px"></iframe>
+          <aside class="notes">
+            <ul>
+              <li>Activer Stats.js</li>
+              <li>Changer les 10 en 100, puis en 1000</li>
+              <li>Montrer les audits Firebug, les outils WebGL Inspector</li>
+              <li></li>
+            </ul>
+          </aside>
+        </section>
+
+        <section>
+          <h2>Pour aller plus loin</h2>
+          <br>
+          <ul style="width:90%; margin:0">
+            <li>
+              <a href="">Shaders</a>
+              <ul>
+                <li>Fragments de code OpenGL exécutés par le GPU</li>
+                <li>Permet de définir la couleur de chaque pixel d'un objet</li>
+                <li>Bien plus rapide que les textures par images</li>
+              </ul>
+              <br><br>
+            </li>
+            <li>
+              <a href="">EffectComposer</a>
+              <ul>
+                <li>Permet d'ajouter des effets sur le rendu</li>
+                <li>Avant, ou après le rendu</li>
+              </ul>
+              <br><br>
+            </li>
+            <li>
+              <a href="http://chandlerprall.github.io/Physijs">Physijs</a> un moteur physique pour Three.js
+            </li>
+            <li>
+              <a href="https://github.com/jeromeetienne/threex">Threex</a> éléments de jeu
+            </li>
+            <li>
+              <a href="http://stemkoski.github.io/Three.js/">stemkoski.github.io</a> d'autres exemples
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>But there's a challenger<br>Babylon.js !</h2>
+          <br>
+          <ul>
+            <li>
+              créé en <a>2013</a> par <a href="http://twitter.com/@deltakosh">David CATUHE</a>, développeur chez <a href="#">Microsoft</a>
+              <br><br>
+            </li>
+            <li>
+              <a href="">450</a> commits, <a href="">32</a> releases, <a href="">25</a> contributors
+              <br><br>
+            </li>
+            <li>
+              Énormément de features, de formats de fichiers supportés
+              <br><br>
+            </li>
+            <li>
+              Ce serait vraiment beau, n'est-ce pas ?
+              <br>
+              <br>
+
+              <p class="fragment fade-in" data-fragment-index="3">
+                <img src="lib/img/how-about-no-bear.jpg" style="float:right; width:40%; margin:20px"/>
+              </p>
+              
+              <p class="fragment fade-in" data-fragment-index="1">
+                ... et bien ...
+              </p>
+              <p class="fragment fade-in" data-fragment-index="2">
+                <br>
+                La dernière démo, annoncée via tweet sponsorisé par <a href="http://twitter.com/@IEDevChat">IEDevChat</a>, ne fonctionnait complètement que sous IE11 ...
+                <br><br>
+              </p>
+            </li>
+          </ul>
         </section>
 
         <section>
           <h1>THE END</h1>
-          <iframe src="lib/examples/end.html" style="width: 600px; height: 500px"></iframe>
+          <iframe src="lib/examples/end.html" style="width: 80%; height: 500px"></iframe>
         </section>
 
       </div>

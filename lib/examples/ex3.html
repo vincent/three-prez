@@ -1,6 +1,7 @@
 <html><body style="overflow:hidden"></body></html>
 
 <script src="../js/three.js"></script>
+<script src="../js/stats.min.js"></script>
 
 <script>
 
@@ -19,6 +20,7 @@
   var camera = new THREE.PerspectiveCamera( fov, aspect, near, far );
   camera.position.z = 300;
 
+  var stats = null;
   var scene = new THREE.Scene();
   var cube = new THREE.Mesh(
     new THREE.CubeGeometry(50,50,50),
@@ -31,11 +33,47 @@
   light.position.set( 170, 330, -160 );
   scene.add(light);
 
-  var litCube = new THREE.Mesh(
-    new THREE.CubeGeometry(50, 50, 50),
-    new THREE.MeshLambertMaterial({color: 0xffffff}));
-  litCube.position.y = 50;
-  scene.add(litCube);
+
+  /* * /
+  stats = new Stats();
+  stats.setMode(1); // 0: fps, 1: ms
+
+  // Align top-left
+  stats.domElement.style.position = 'absolute';
+  stats.domElement.style.left = '0px';
+  stats.domElement.style.top = '0px';
+
+  document.body.appendChild( stats.domElement );
+  stats.setMode(0);
+  stats.begin();
+  /* */
+
+
+  // var geometry = new THREE.CubeGeometry(20, 20, 20);
+  // var material = new THREE.MeshLambertMaterial();
+
+
+
+  for (var i = 0; i < 10; i++) {
+
+      for (var j = 0; j < 10; j++) {
+
+          var litCube = new THREE.Mesh(
+            new THREE.CubeGeometry(20, 20, 20), // geometry,
+            new THREE.MeshLambertMaterial()     // material
+          );
+
+          litCube.position.x = 20 * j + i * 10;
+          litCube.position.y = 20 + j * i * 10;
+
+          scene.add(litCube);
+
+      }
+  }
+
+
+
+
 
   renderer.render(scene, camera);
 
@@ -43,12 +81,15 @@
   var last = new Date().getTime();
 
   function animate(t) {
+    if (stats) stats.update();
     if (!paused) {
       last = t;
       camera.position.set(
-        Math.sin(t/1000)*300, 150, Math.cos(t/1000)*300);
+        Math.sin(t/1000)*800, 600, Math.cos(t/1000)*800);
       renderer.clear();
-      camera.lookAt(scene.position);
+      var point = scene.position.clone();
+      point.y = 200;
+      camera.lookAt(point);
       renderer.render(scene, camera);
     }
     window.requestAnimationFrame(animate, renderer.domElement);
