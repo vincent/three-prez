@@ -812,16 +812,26 @@ loader.load('obj/male02/male02.obj', function (object) {
       });
 
       /* * /
+      Reveal.addEventListener('ready', function(event) {
+          // event.currentSlide, event.indexh, event.indexv
+          $('iframe').each(function(i, iframe){
+            iframe.src = $(iframe).data('src');
+            console.log('show iframe ', iframe);
+          });
+      });
+      /* */
+
+      /* */
       Reveal.addEventListener('slidechanged', function(event) {
           // event.previousSlide, event.currentSlide, event.indexh, event.indexv
           $('iframe', event.currentSlide).each(function(i, iframe){
             iframe.src = $(iframe).data('src');
             console.log('show iframe ', iframe);
           });
-          $('iframe', event.previousSlide).each(function(i, iframe){
-            iframe.src = '';
-            console.log('abort iframe ', iframe);
-          });
+          // $('iframe', event.previousSlide).each(function(i, iframe){
+          //   iframe.src = '';
+          //   console.log('abort iframe ', iframe);
+          // });
       });
       /* */
 
