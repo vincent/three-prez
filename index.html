@@ -348,15 +348,18 @@ La possibilité d'utiliser OpenGL, de manipuler des objets 3D, des particules an
 <br><br>
 Mais plus facilement, et en gardant un code bien lisible.
           </aside>
-          <h2>What do we want ?</h2>
+          <h3>What do we want ?</h3>
           <br>
-          <h2><a href="">3D ! and particules !
+          <h3><a href="">Object oriented 3D !
           <br>
-          and awesomeness !</a></h2>
+          and particules !
           <br>
-          <h2>How do we want ?</h2>
           <br>
-          <h2><a href="">Super easy ! and readable !</a></h2>
+          and awesomeness !</a></h3>
+          <br>
+          <h3>How do we want ?</h3>
+          <br>
+          <h3><a href="">Super easy ! and readable !</a></h3>
           <br>
         </section>
 
@@ -375,8 +378,8 @@ Mais plus facilement, et en gardant un code bien lisible.
           <br>
             <ul>
               <li class="fragment fade-in" data-fragment-index="1">
-                Création / publication graphique<br>
-                <a href="https://clara.io/">Clara.io</a> et <a href="http://verold.com/">Verold</a> sont des éditeurs 3D en ligne
+                Éditeurs 3D en ligne<br>
+                <a href="https://clara.io/">Clara.io</a> et <a href="http://verold.com/">Verold</a>
                 <br><br>
               </li>
               <li class="fragment fade-in" data-fragment-index="2">
@@ -406,7 +409,7 @@ Mais plus facilement, et en gardant un code bien lisible.
         <section>
           <h2>En scène <em>(3D)</em> !</h2>
           <ul>
-            <li>une scene, et une camera
+            <li>une scène, et une camera
               <pre><code data-trim contenteditable>
 var camera = new THREE.PerspectiveCamera(45, w/h, 1, 1000)
 camera.position.z = 300 // vers vous
@@ -467,7 +470,7 @@ scene.add(light);
 renderer.render(scene, camera);
             </code></pre>
             -->
-          <iframe src="lib/examples/ex1.html" style="width: 80%; height: 500px"></iframe>
+          <iframe data-src="lib/examples/ex1.html" style="width: 80%; height: 500px"></iframe>
           <p>wait for it ...</p>
         </section>
 
@@ -501,13 +504,13 @@ cube.rotation.y = 45 * Math.PI / 180;
           </ul>
 
           <aside class="notes">
-            l'angle est calculé par rapport aux normals, il faut donc les calculer d'abord 
+            L'angle est calculé par rapport aux normals, il faut donc les calculer d'abord 
           </aside>
         </section>
 
         <section>
           <h2>HOÔoo</h2>
-          <iframe src="lib/examples/ex1.1.html" style="width: 80%; height: 500px"></iframe>
+          <iframe data-src="lib/examples/ex1.1.html" style="width: 80%; height: 500px"></iframe>
         </section>
 
         <section>
@@ -536,7 +539,7 @@ function animate() {
           </ul>
           <div class="fragment fade-in" data-fragment-index="2">
             <small>ex 2</small>
-            <iframe src="lib/examples/ex2.html" style="width: 40%; float:right; height: 500px"></iframe>
+            <iframe data-src="lib/examples/ex2.html" style="width: 40%; float:right; height: 500px"></iframe>
           </div>
         </section>
 
@@ -567,7 +570,35 @@ function animate() {
           </ul>
           <div class="fragment fade-in" data-fragment-index="2">
             <small>ex 2.2</small>
-            <iframe src="lib/examples/ex2.2.html" style="width: 40%; float:right; height: 500px"></iframe>
+            <iframe data-src="lib/examples/ex2.2.html" style="width: 40%; float:right; height: 500px"></iframe>
+          </div>
+        </section>
+
+        <section>
+          <h2>Hiérarchie d'objets</h2>
+          Pour déplacer un ensemble d'objets
+          <br>
+          <pre><code style="float:left; margin-top: 45px; max-height: 500px" data-trim contenteditable>
+
+var group = new THREE.Object3D()
+var cube1 = new THREE.Mesh(..)
+cube.rotation.y 
+      = 45 * Math.PI / 180
+var cube2 = new THREE.Mesh(..)
+cube2.position.y = 50
+
+group.add(cube1)
+group.add(cube2)
+
+scene.add(group)
+
+// group.position
+// group.rotation
+// group.scale 
+          </code></pre>
+          <div class="fragment fade-in" data-fragment-index="1">
+            <small>ex 2.2.5</small>
+            <iframe data-src="lib/examples/ex2.2.5.html" style="width: 40%; float:right; height: 500px"></iframe>
           </div>
         </section>
 
@@ -578,27 +609,24 @@ function animate() {
               Des images
               <br>
               <pre><code data-trim contenteditable>
-var texture = new THREE.Texture();
-var loader = new THREE.ImageLoader(manager);
+var texture = new THREE.Texture()
+var loader = new THREE.ImageLoader(manager)
+
 loader.load('textures/UV_Grid_Sm.jpg', function (image) {
-  texture.image = image;
-  texture.needsUpdate = true;
-});
+  texture.image = image
+})
               </code></pre>
+              <br>
             </li>
             <li>
               Des fichiers 3D  .obj ,  .stl ,  .fbx , ...
               <br>
               <pre><code data-trim contenteditable>
-var loader = new THREE.OBJLoader(manager);
+var loader = new THREE.OBJLoader(manager)
+
 loader.load('obj/male02/male02.obj', function (object) {
-  object.traverse(function(child) {
-    if (child instanceof THREE.Mesh) {
-      child.material.map = texture;
-    }
-  });
-  scene.add(object);
-});
+  scene.add(object)
+})
               </code></pre>
             </li>
           </ul>
@@ -607,24 +635,29 @@ loader.load('obj/male02/male02.obj', function (object) {
         <section>
           <h2>Créons un objet 3D</h2>
           <br>
-          <ul style="width:55%; float:left">
+          <ul style="margin-top: 45px; width:55%; float:left">
             <li>
               Création d'un objet dans <a href="http://www.blender.org">Blender</a>
+              <br><br>
             </li>
             <li>
-              Atention aux <a href="">normals</a>, aux <a href="">UV maps</a>, ...
+              Atention aux <a href="">normals</a>
+              <br><br>
+            </li>
+            <li>
+              aux <a href="">UV maps</a>
+              <br><br>              
             </li>
           </ul>
           <div class="fragment fade-in" data-fragment-index="1">
             <small>ex 2.3</small>
-            <iframe src="lib/examples/ex2.3.html" style="width: 40%; float:right; height: 500px"></iframe>
+            <iframe data-src="lib/examples/ex2.3.html" style="width: 40%; float:right; height: 500px"></iframe>
           </div>
         </section>
 
         <section>
           <h2>Attention, chérie, ça va lagguer...</h2>
-          <br>
-          <ul style="width:55%; float:left">
+          <ul style="margin-top: 45px; width:55%; float:left">
             <li>
               Mesurer, mesurer, toujours mesurer
               <ul>
@@ -652,13 +685,13 @@ loader.load('obj/male02/male02.obj', function (object) {
             </li>
           </ul>
           <small>ex 3</small>
-          <iframe src="lib/examples/ex3.html" style="width: 40%; float:right; height: 500px"></iframe>
+          <iframe data-src="lib/examples/ex3.html" style="width: 40%; float:right; height: 500px"></iframe>
         </section>
 
         <section>
           <h2>Bac à sable</h2>
           <div><small>ex 3.3</small></div>
-          <iframe src="lib/examples/ex3.3.html" style="width: 90%; height: 500px"></iframe>
+          <iframe data-src="lib/examples/ex3.3.html" style="width: 90%; height: 500px"></iframe>
           <aside class="notes">
             <ul>
               <li>Activer Stats.js</li>
@@ -721,7 +754,6 @@ loader.load('obj/male02/male02.obj', function (object) {
             <li>
               Ce serait vraiment beau, n'est-ce pas ?
               <br>
-              <br>
 
               <p class="fragment fade-in" data-fragment-index="3">
                 <img src="lib/img/how-about-no-bear.jpg" style="float:right; width:40%; margin:20px"/>
@@ -731,7 +763,6 @@ loader.load('obj/male02/male02.obj', function (object) {
                 ... et bien ...
               </p>
               <p class="fragment fade-in" data-fragment-index="2">
-                <br>
                 La dernière démo, annoncée via tweet sponsorisé par <a href="http://twitter.com/@IEDevChat">IEDevChat</a>, ne fonctionnait complètement que sous IE11 ...
                 <br><br>
               </p>
@@ -741,7 +772,7 @@ loader.load('obj/male02/male02.obj', function (object) {
 
         <section>
           <h1>THE END</h1>
-          <iframe src="lib/examples/end.html" style="width: 80%; height: 500px"></iframe>
+          <iframe data-src="lib/examples/end.html" style="width: 80%; height: 500px"></iframe>
         </section>
 
       </div>
@@ -750,6 +781,7 @@ loader.load('obj/male02/male02.obj', function (object) {
 
     <script src="lib/js/head.min.js"></script>
     <script src="js/reveal.min.js"></script>
+    <script src="lib/js/jquery-1.9.1.js"></script>
 
     <script>
 
@@ -778,6 +810,30 @@ loader.load('obj/male02/male02.obj', function (object) {
           { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
         ]
       });
+
+      /* * /
+      Reveal.addEventListener('slidechanged', function(event) {
+          // event.previousSlide, event.currentSlide, event.indexh, event.indexv
+          $('iframe', event.currentSlide).each(function(i, iframe){
+            iframe.src = $(iframe).data('src');
+            console.log('show iframe ', iframe);
+          });
+          $('iframe', event.previousSlide).each(function(i, iframe){
+            iframe.src = '';
+            console.log('abort iframe ', iframe);
+          });
+      });
+      /* */
+
+      /* * /
+      Reveal.addEventListener('fragmentshown', function(event) {
+          // event.fragment = the fragment DOM element
+          $('iframe', event.fragment).each(function(i, iframe){
+            iframe.src = $(iframe).data('src');
+            console.log('show iframe ', iframe);
+          });
+      });
+      /* */
 
     </script>
 

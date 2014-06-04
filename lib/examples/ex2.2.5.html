@@ -21,17 +21,25 @@
     new THREE.MeshNormalMaterial()
   );
   cube.geometry.computeFaceNormals();
-  scene.add(cube);
+  // scene.add(cube);
 
   var light = new THREE.SpotLight();
-  light.position.set( 170, 330, -160 );
+  light.position.set( 0, 0, -500 );
   scene.add(light);
 
   var litCube = new THREE.Mesh(
     new THREE.CubeGeometry(50, 50, 50),
     new THREE.MeshLambertMaterial({color: 0xffffff}));
   litCube.position.y = 50;
-  scene.add(litCube);
+  litCube.rotation.y = 45 * Math.PI / 180;
+  // scene.add(litCube);
+
+
+  var group = new THREE.Object3D();
+  group.add(cube);
+  group.add(litCube);
+  scene.add(group);
+
 
   renderer.render(scene, camera);
 
@@ -41,8 +49,9 @@
   function animate(t) {
     if (!paused) {
       last = t;
-      camera.position.set(
-        Math.sin(t/1000)*300, 150, Math.cos(t/1000)*300);
+
+      group.rotation.y = Math.sin(t/1000);
+
       renderer.clear();
       camera.lookAt(scene.position);
       renderer.render(scene, camera);
