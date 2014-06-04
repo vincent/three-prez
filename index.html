@@ -22,6 +22,20 @@
 
     <link rel="stylesheet" href="lib/css/style.css">
 
+    <style>
+      .copy-left {
+         display: inline-block;
+         text-align: right;
+         margin: 0;
+        -moz-transform: scaleX(-1);
+        -o-transform: scaleX(-1);
+        -webkit-transform: scaleX(-1);
+        transform: scaleX(-1);
+        filter: FlipH;
+        -ms-filter: "FlipH";
+      }
+    </style>
+
     <!-- If the query includes 'print-pdf', include the PDF print sheet -->
     <script>
       if( window.location.search.match( /print-pdf/gi ) ) {
@@ -50,7 +64,7 @@
           <h3>Un moteur 3D Javascript</h3>
           <br>
           <p>
-            <small><a href="#">Vincent Lark</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="http://twitter.com/allyouneedisgnu">@allyouneedisgnu</a></small>
+            <small><span class="copy-left">&copy;</span> <a href="#">Vincent Lark</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="http://twitter.com/allyouneedisgnu"> @allyouneedisgnu</a></small>
           </p>
         </section>
 
@@ -773,6 +787,7 @@ loader.load('obj/male02/male02.obj', function (object) {
         <section>
           <h1>THE END</h1>
           <iframe data-src="lib/examples/end.html" style="width: 80%; height: 500px"></iframe>
+          <p>Retrouvez cette présentation sur Github http://vincent.github.io/three-prez</p>
         </section>
 
       </div>
