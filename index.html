@@ -98,7 +98,7 @@
                 <br><br>
               </li>
               <li>
-                <a href="">8000</a> commits, <a href="">59</a> releases, <a href="">300</a> contributors
+                <a>8000</a> commits, <a>59</a> releases, <a>300</a> contributors
                 <br><br>
               </li>
             </ul>
@@ -110,14 +110,16 @@
           </aside>
           <section>
             <h2>WebGL ?</h2>
-            <br>
-            <p>&laquo; WebGL est une <a href="">[API]</a>.
+            <small>http://fr.wikipedia.org/wiki/WebGL</small>
             <br><br>
-            Elle permet d'utiliser <a href="">OpenGL</a> ES au sein d'une page web [..] HTML5
+            <img src="lib/img/webgl_archi.png" style="background:none; border:none; float:right" />
+            <p>&laquo; WebGL est une <a href="http://en.wikipedia.org/wiki/WebGL">[API]</a>
             <br><br>
-            en s'aidant de <a href="">JavaScript</a>, [..] de l'accélération matérielle pour les 
-            <br><br>
-            calculs et le rendu 3D [..] et du <a href="">processeur graphique</a> &raquo;</p>
+            Elle permet d'utiliser <a href="http://en.wikipedia.org/wiki/OpenGL_ES">OpenGL</a> ES au sein d'une page HTML5, en s'aidant de <a>JavaScript</a>
+            <br><br><br>
+             de l'accélération matérielle pour les calculs <br>et le rendu 3D
+            <br><br><br>
+             et du <a>processeur graphique</a> &raquo;</p>
           </section>
           <section>
             <img src="lib/img/iknowsomewords.jpg" style="border:none; width:80%"/>
@@ -125,7 +127,7 @@
           <section>
             <aside class="notes">
               <ul>
-                <li>Petit rappels</li>
+                <li>Petit rappels d'OpenGL</li>
                 <li>Définitions communes à OpenGL et Three.js</li>
               </ul>
             </aside>
@@ -136,6 +138,7 @@
           <section>
             <aside class="notes">
               <ul>
+                <li>Ok c'est bien joli mais .. en tant que webdev, comment programmer avec ça ?</li>
                 <li>Avec des méthodes similaires à OpenGL<br></li>
                 <li>on manipule des tableaux de points et de faces<br></li>
                 <li>et on utilise des matrices pour changer de réferentiel et déplacer les objets<br></li>
@@ -144,12 +147,6 @@
             <h2>OK mais concrètement ?</h2>
             <br>
             <ul>
-              <li>
-                Via des méthodes très similaires à <a href="#">OpenGL</a>
-                <code data-trim><pre>
-gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-                </pre></code>
-              </li>
               <li>
                 On manipule des tableaux de <a href="#">points 3D</a> et de <a href="#">faces</a>
                 <code data-trim><pre>
@@ -162,8 +159,11 @@ var vertices = [
                 </pre></code>
               </li>
               <li>
-                On place des objets en transformant des <a href="">matrices</a>
+                On récupère un contexte <a>WebGL</a>, et
+                via des méthodes très similaires à <a href="#">OpenGL</a>,
+                on place des objets en transformant des <a>matrices</a>
                 <code data-trim><pre>
+gl = canvas.getContext('experimental-webgl');
 mvPushMatrix();
 mvRotate(cubeRotation, [1, 0, 1]);
 mvTranslate([cubeXOffset, cubeYOffset, cubeZOffset]);
@@ -178,7 +178,7 @@ mvTranslate([cubeXOffset, cubeYOffset, cubeZOffset]);
                 <li>Passage en revue du code, des commentaires</li>
                 <li>...</li>
                 <li>Je sais pas pour vous.. mais moi, ça ne me fait pas spécialement envie..</li>
-                <li>Alors, qu'est-ce que j'ai envie ?</li>
+                <li>Alors, de quoi j'ai envie ?</li>
               </ul>
             </aside>
             <h2>Exemple, pour un cube</h2>
@@ -364,7 +364,7 @@ Mais plus facilement, et en gardant un code bien lisible.
           </aside>
           <h3>What do we want ?</h3>
           <br>
-          <h3><a href="">Object oriented 3D !
+          <h3><a>Object oriented 3D !
           <br>
           and particules !
           <br>
@@ -373,8 +373,11 @@ Mais plus facilement, et en gardant un code bien lisible.
           <br>
           <h3>How do we want ?</h3>
           <br>
-          <h3><a href="">Super easy ! and readable !</a></h3>
+          <h3><a>Super easy ! and readable !</a></h3>
           <br>
+          <!--
+          <img src="lib/img/meme-late-ie.png" width="" class="fragment fade-in" data-fragment-index="1" style="border:none; position:absolute; bottom:0; right:-20%">
+          -->
         </section>
 
         <section>
@@ -383,12 +386,12 @@ Mais plus facilement, et en gardant un code bien lisible.
             <br>
             Certains ont un peu de mal à croire à la 3D dans le navigateur
             Que ça reste non distribuable (pas de support, buggé)
-            Et bien en fait on s'apperçoit que ça commence à arriver pour le "grand public"
+            Et bien en fait on s'apperçoit que ça commence à se démocratiser, et à être utilisé professionnelement
             <br><br>
             Voici quelques exemples que je trouve assez parlants
           </aside>
           <h2>De la 3D dans le browser</h2>
-          <p>ça marche vraiment ?</p>
+          <p>Three.js, ça marche vraiment ?</p>
           <br>
             <ul>
               <li class="fragment fade-in" data-fragment-index="1">
@@ -441,7 +444,7 @@ scene.add(cube)
               </code></pre>
               <br>
             </li>
-            <li>le renderer expose la scene
+            <li>le renderer expose la scene dans un &lt;canvas&gt;
               <pre><code data-trim contenteditable>
 var renderer = new THREE.WebGLRenderer()
 renderer.render(scene, camera)
@@ -518,7 +521,7 @@ cube.rotation.y = 45 * Math.PI / 180;
           </ul>
 
           <aside class="notes">
-            L'angle est calculé par rapport aux normals, il faut donc les calculer d'abord 
+            pk computeFaceNormals ? l'angle est calculé par rapport aux normals, il faut donc les calculer d'abord 
           </aside>
         </section>
 
@@ -528,25 +531,29 @@ cube.rotation.y = 45 * Math.PI / 180;
         </section>
 
         <section>
-          <h2>C'est bien joli, mais bon..</h2>
+          <aside class="notes">
+            requestAnimationFrame: sorte de setTimeout, mais le browser sait quand le rapeller
+          </aside>
+          <h2>C'est bien joli, mais ..</h2>
           <p>On veut que ça bouge !</p>
           <br>
           <ul style="width:55%; float:left">
             <li>
-              <a href="">requestAnimationFrame(animate)</a>
+              <a>requestAnimationFrame(animate)</a>
             </li>
             <li>
               <pre class="fragment fade-in" data-fragment-index="1"><code data-trim contenteditable>
-function animate() {
+function animate(t) {
 
   camera.position.set(
     Math.sin(t / 1000) * 300,
     150,
     Math.cos(t / 1000) * 300
-  );
+  )
+
+  renderer.render(scene, camera)
 
   requestAnimationFrame(animate)
-
 }
               </code></pre>
             </li>
@@ -562,21 +569,19 @@ function animate() {
           <br>
           <ul style="width:55%; float:left">
             <li>
-              <a href="">requestAnimationFrame(animate)</a>
-            </li>
-            <li>
-              <pre><code data-trim contenteditable>
-function animate() {
+              <pre><code data-trim contenteditable style="max-height: 500px">
+function animate(t) {
 
   cube1.position.set(
     Math.sin(t / 1000) * 200,
     150,
     Math.cos(t / 1000) * 200
-  );
+  )
 
   cube2.rotation.y = 
-              Math.sin(t/1000);
+              Math.sin(t/1000)
 
+  renderer.render(scene, camera)
   requestAnimationFrame(animate)
 }
               </code></pre>
@@ -590,7 +595,7 @@ function animate() {
 
         <section>
           <h2>Hiérarchie d'objets</h2>
-          Pour déplacer un ensemble d'objets
+          Pour déplacer des ensembles
           <br>
           <pre><code style="float:left; margin-top: 45px; max-height: 500px" data-trim contenteditable>
 
@@ -647,6 +652,34 @@ loader.load('obj/male02/male02.obj', function (object) {
         </section>
 
         <section>
+          <h2>Créons des THREE.Objet3D</h2>
+          <br>
+          <ul>
+            <li>
+              Héritage par prototype typique
+              <pre><code data-trim contenteditable>
+function Personne (prenom) {
+  THREE.Object3D.apply(this)
+
+  this.prenom = prenom
+}
+Personne.prototype = Object.create(THREE.Object3D.prototype)
+              </code></pre>
+              <br>
+            </li>
+            <li>
+              Manipulation
+              <pre><code data-trim contenteditable>
+var bernie = new Personne('bernie')
+bernie.add(new Pelle())
+
+scene.add(bernie)
+              </code></pre>
+            </li>
+          </ul>
+        </section>
+
+        <section>
           <h2>Créons un objet 3D</h2>
           <br>
           <ul style="margin-top: 45px; width:55%; float:left">
@@ -655,11 +688,11 @@ loader.load('obj/male02/male02.obj', function (object) {
               <br><br>
             </li>
             <li>
-              Attention aux <a href="">normals</a>
+              Attention aux <a>normals</a>
               <br><br>
             </li>
             <li>
-              aux <a href="">UV maps</a>
+              aux <a>UV maps</a>
               <br><br>              
             </li>
           </ul>
@@ -673,7 +706,7 @@ loader.load('obj/male02/male02.obj', function (object) {
           <h2>Attention, chérie, ça va lagguer...</h2>
           <ul style="margin-top: 45px; width:55%; float:left">
             <li>
-              Mesurer, mesurer, toujours mesurer
+              Mesurer, mesurer, toujours mesurer<br><br>
               <ul>
                 <li><a href="https://github.com/mrdoob/stats.js">Stats.js</a></li>
                 <li>outils de dévelopement</li>
@@ -681,18 +714,15 @@ loader.load('obj/male02/male02.obj', function (object) {
               <br>
             </li>
             <li>
-              Réutiliser autant que possible<br>
-            </li>
-            <li>
-              Gérer la mémoire disponible<br>
+              Réutiliser autant que possible, et gérer la mémoire disponible<br><br>
               <ul>
-                <li>objectif: pas de <a href="">new</a></li>
-                <li>utilisez des <a href="">pools</a> d'objets</li>
+                <li>objectif: pas de <a>new</a></li>
+                <li>utilisez des <a>pools</a> d'objets</li>
               </ul>
               <br>
             </li>
+            <!--
             <li>
-              <!-- Buffers = Calls = temps -->
               Fusionner les geométries
               <ul>
                 <li>10 objets => 1 objet</li>
@@ -700,6 +730,7 @@ loader.load('obj/male02/male02.obj', function (object) {
                 <li><i>BufferGeometry</i></li>
               </ul>
             </li>
+            -->
           </ul>
           <small>ex 3</small>
           <iframe data-src="lib/examples/ex3.html" style="width: 40%; float:right; height: 500px"></iframe>
@@ -714,6 +745,7 @@ loader.load('obj/male02/male02.obj', function (object) {
               <li>Activer Stats.js</li>
               <li>Changer les 10 en 100, puis en 1000</li>
               <li>Montrer les audits Firebug, les outils WebGL Inspector</li>
+              <li>Montrer réutilisation de la geometry</li>
               <li></li>
             </ul>
           </aside>
@@ -724,7 +756,7 @@ loader.load('obj/male02/male02.obj', function (object) {
           <br>
           <ul style="width:90%; margin:0">
             <li>
-              <a href="">Shaders</a>
+              <a>Shaders</a>
               <ul>
                 <li>Fragments de code OpenGL exécutés par le GPU</li>
                 <li>Permet de définir la couleur de chaque pixel d'un objet</li>
@@ -733,7 +765,7 @@ loader.load('obj/male02/male02.obj', function (object) {
               <br><br>
             </li>
             <li>
-              <a href="">EffectComposer</a>
+              <a>EffectComposer</a>
               <ul>
                 <li>Permet d'ajouter des effets sur le rendu</li>
                 <li>Avant, ou après le rendu</li>
@@ -762,7 +794,7 @@ loader.load('obj/male02/male02.obj', function (object) {
               <br><br>
             </li>
             <li>
-              <a href="">450</a> commits, <a href="">32</a> releases, <a href="">25</a> contributors
+              <a>450</a> commits, <a>32</a> releases, <a>25</a> contributors
               <br><br>
             </li>
             <li>
@@ -792,7 +824,7 @@ loader.load('obj/male02/male02.obj', function (object) {
         <section>
           <h1>THE END</h1>
           <iframe data-src="lib/examples/end.html" style="width: 80%; height: 500px"></iframe>
-          <p>Retrouvez cette présentation sur Github http://vincent.github.io/three-prez</p>
+          <p>Retrouvez cette présentation sur Github <br><a href="http://vincent.github.io/three-prez">http://vincent.github.io/three-prez</a></p>
         </section>
 
       </div>
