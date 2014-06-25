@@ -1,6 +1,7 @@
 <html><body style="overflow:hidden"></body></html>
 
-<script src="../js/three.js"></script>
+<script src="../js/three.min.js"></script>
+<script src="../js/OrbitControls.js"></script>
 
 <script>
 
@@ -22,6 +23,11 @@
   var scene = new THREE.Scene();
 
   var origin = new THREE.Vector3(0, 0, 0);
+
+  var controls = new THREE.OrbitControls(camera, renderer.domElement);
+  controls.addEventListener('change', function(){
+      renderer.render(scene, camera);
+  });
 
   // create the particle variables
   var particleCount = 180,

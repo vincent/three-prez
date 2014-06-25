@@ -23,8 +23,8 @@
   cube.geometry.computeFaceNormals();
   // scene.add(cube);
 
-  var light = new THREE.SpotLight();
-  light.position.set( 0, 0, -500 );
+  var light = new THREE.PointLight(0xff0000);
+  light.position.set( 0, 0, 100 );
   scene.add(light);
 
   var litCube = new THREE.Mesh(

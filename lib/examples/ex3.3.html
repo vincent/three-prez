@@ -2,6 +2,11 @@
 
 <script src="../js/three.js"></script>
 <script src="../js/stats.min.js"></script>
+<style type="text/css">
+  .blabla {
+    top: 0;
+  }
+</style>
 
 <script>
 
@@ -88,9 +93,39 @@
       point.y = 200;
       camera.lookAt(point);
       renderer.render(scene, camera);
+
+
+      if (typeof geometry != 'undefined') {
+        rebuildStuff();        
+      }
     }
     window.requestAnimationFrame(animate, renderer.domElement);
   };
   animate(new Date().getTime());
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  function rebuildStuff() {
+    for (var i = 0; i < 10; i++) {
+      renderer.render(scene, camera);
+    }
+  }
 
 </script>
